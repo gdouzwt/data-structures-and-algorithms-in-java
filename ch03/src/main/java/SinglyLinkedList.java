@@ -82,4 +82,21 @@ public class SinglyLinkedList<E> {
         }
         return answer;
     }
+
+    // 重写 SinglyLinkedList 的 equals 方法
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        SinglyLinkedList other = (SinglyLinkedList) obj;  // use nonparameterized type // raw types
+        if (size != other.size) return false;
+        Node walkA = head;  // traverse the primary list
+        Node walkB = other.head;  // traverse the secondary list
+        while (walkA != null) {
+            if (!walkA.getElement().equals(walkB.getElement())) return false;
+            walkA = walkA.getNext();
+            walkB = walkB.getNext();
+        }
+        return true;  // if we reach this, everything matched successfully
+    }
 }
