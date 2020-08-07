@@ -48,4 +48,85 @@ public class DoublyLinkedList<E> {
         trailer = new Node<>(null, header, null);
         header.setNext(trailer);
     }
+
+    /**
+     * Returns the number of elements in the linked list.
+     *
+     * @return 返回链表长度
+     */
+    public int size() {
+        return size;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public E first() {
+        if (isEmpty()) return null;
+        return header.getNext().getElement();
+    }
+
+    /**
+     * @return the last element
+     */
+    public E last() {
+        if (isEmpty()) return null;
+        return trailer.getPrev().getElement();
+    }
+
+    // public update methods
+
+    /**
+     * Adds element e to the front of the list.
+     */
+    public void addFirst(E e) {
+        addBetween(e, header, header.getNext());
+    }
+
+    /**
+     * Adds element e to the end of the list.
+     *
+     * @param e element added to the end of the list.
+     */
+    public void addLast(E e) {
+        addBetween(e, trailer.getPrev(), trailer);
+    }
+
+    /**
+     * Removes and returns the first element of the list.
+     *
+     * @return e the removed element
+     */
+    public E removeFirst() {
+        if (isEmpty()) return null;
+        return remove(header.getNext());
+    }
+
+    /**
+     * Removes and returns the last element of the list.
+     *
+     * @return the removed element.
+     */
+    public E removeLast() {
+        if (isEmpty()) return null;
+        return remove(trailer.getPrev());
+    }
+
+    private void addBetween(E e, Node<E> predecessor, Node<E> successor) {
+        // create and link a new node
+        Node<E> newest = new Node<>(e, predecessor, successor);
+        predecessor.setNext(newest);
+        successor.setPrev(newest);
+        size++;
+    }
+
+    private E remove(Node<E> node) {
+        Node<E> predecessor = node.getPrev();
+        Node<E> successor = node.getNext();
+        predecessor.setNext(successor);
+        successor.setPrev(predecessor);
+        size--;
+        return node.getElement();
+    }
 }
