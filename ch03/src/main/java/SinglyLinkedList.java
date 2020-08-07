@@ -1,4 +1,4 @@
-public class SinglyLinkedList<E> {
+public class SinglyLinkedList<E> implements Cloneable{
     private static class Node<E> {
         private E element;
         private Node<E> next;
@@ -98,5 +98,24 @@ public class SinglyLinkedList<E> {
             walkB = walkB.getNext();
         }
         return true;  // if we reach this, everything matched successfully
+    }
+
+    // 重写 clone 方法
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        // always use inherited Object.clone() to create the initial copy
+        SinglyLinkedList<E> other = (SinglyLinkedList<E>) super.clone();  // safe cast
+        if (size > 0) {
+            other.head = new Node<>(head.getElement(), null);
+            Node<E> walk = head.getNext();
+            Node<E> otherTail = other.head;
+            while (walk != null) {
+                Node<E> newest = new Node<>(walk.getElement(), null);
+                otherTail.setNext(newest);
+                otherTail = newest;
+                walk = walk.getNext();
+            }
+        }
+        return other;
     }
 }
