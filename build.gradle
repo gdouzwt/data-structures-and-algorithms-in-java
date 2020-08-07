@@ -1,7 +1,3 @@
-plugins {
-    id 'java'
-}
-
 group 'io.zwt'
 version '1.0-SNAPSHOT'
 
