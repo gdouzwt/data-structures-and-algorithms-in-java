@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -19,34 +20,35 @@ public class CloneDemo {
         System.out.println("B contents below");
         printScores(B);
         System.out.println("set A[4] to 550");
-        A[4].setScores(550);
+        A[4].setScore(550);
         System.out.println("print B[4]");
-        System.out.println(B[4].getScores());
+        System.out.println(B[4].getScore());
         System.out.println(A.equals(B)); // false
+        System.out.println(Arrays.equals(A, B)); // true
         System.out.println(A[4].equals(B[4])); // true
         // 结论是 clone() 之后，数组 A 和 数组 B 是不同的对象，但是里边对应 index 存的 GameEntry 却同样的。
     }
 
     private static void printScores(GameEntry[] a) {
         for (GameEntry gameEntry : a) {
-            System.out.print(gameEntry.getScores() + " ");
+            System.out.print(gameEntry.getScore() + " ");
         }
         System.out.println();
     }
 }
 
 class GameEntry {
-    private Integer scores;
+    private Integer score;
 
-    GameEntry(Integer scores) {
-        this.scores = scores;
+    GameEntry(Integer score) {
+        this.score = score;
     }
 
-    public Integer getScores() {
-        return scores;
+    public Integer getScore() {
+        return score;
     }
 
-    public void setScores(Integer scores) {
-        this.scores = scores;
+    public void setScore(Integer score) {
+        this.score = score;
     }
 }

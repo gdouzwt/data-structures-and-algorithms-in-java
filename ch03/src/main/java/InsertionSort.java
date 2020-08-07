@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Insertion-sort of an array of characters into nondecreasing order
  */
@@ -5,8 +7,12 @@ public class InsertionSort {
 
     public static void main(String[] args) {
         char[] letters = {'B', 'C', 'D', 'A', 'E', 'H', 'G', 'F'};
+        char[] others = new char[5];
+        Arrays.fill(others, 'a');
+        System.out.println(others);
         System.out.println(letters);
-        insertionSort(letters);
+//        insertionSort(letters);
+        Arrays.sort(letters);
         System.out.println(letters);
     }
 
