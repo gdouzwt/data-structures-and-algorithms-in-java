@@ -2,6 +2,7 @@
   <dictionary name="tao">
     <words>
       <w>arraycopy</w>
+      <w>childname</w>
       <w>descript</w>
       <w>nondecreasing</w>
       <w>nonnegative</w>
