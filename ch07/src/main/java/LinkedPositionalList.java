@@ -1,4 +1,89 @@
-public class LinkedPositionalList<E> implements PositionalList<E> {
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class LinkedPositionalList<E> implements PositionalList<E>, Iterable<E> {
+
+    // ---------------- nested PositionIterator class -------------------------
+    private class PositionIterator implements Iterator<Position<E>> {
+
+        private Position<E> cursor = first();  // position of the next element to report
+        private Position<E> recent = null;  // position of last reported element
+
+        /**
+         * Tests whether the iterator has a next object.
+         */
+        @Override
+        public boolean hasNext() {
+            return (cursor != null);
+        }
+
+        /**
+         * @return the next position in the iterator
+         * @throws NoSuchElementException if nothing left
+         */
+        @Override
+        public Position<E> next() throws NoSuchElementException {
+            if (cursor == null) throw new NoSuchElementException("nothing left");
+            recent = cursor;  // element at this position might later be removed
+            cursor = after(cursor);
+            return recent;
+        }
+
+        /**
+         * Removes the element returned by most recent call to next.
+         */
+        @Override
+        public void remove() throws IllegalStateException {
+            if (recent == null) throw new IllegalStateException("nothing left");
+            LinkedPositionalList.this.remove(recent);
+            recent = null; // do not all remove again until next called
+        }
+    }  //-------------------- end of nested PositionIterator class------------------------
+
+    // ---------------------- nested PositionIterable class ----------------------
+    private class PositionIterable implements Iterable<Position<E>> {
+        @Override
+        public Iterator<Position<E>> iterator() {
+            return new PositionIterator();
+        }
+    }  // ---------- end of nested PositionIterable class ----------------
+
+    /**
+     * @return an iterable representation of the list's positions.
+     */
+    public Iterable<Position<E>> positions() {
+        return new PositionIterable();
+    }
+
+    // -------------------- nested ElementIterator class -----------------
+    /* This class adapts the iteration produced by positions() to return elements. */
+    private class ElementIterator implements Iterator<E> {
+        Iterator<Position<E>> posIterator = new PositionIterator();
+
+        @Override
+        public boolean hasNext() {
+            return posIterator.hasNext();
+        }
+
+        @Override
+        public E next() {
+            return posIterator.next().getElement();
+        }
+
+        @Override
+        public void remove() {
+            posIterator.remove();
+        }
+    }
+
+    /**
+     * @return an iterator of the elements stored in the list.
+     */
+    @Override
+    public Iterator<E> iterator() {
+        return new ElementIterator();
+    }
+
 
     // --------- nested Node class -----------
     private static class Node<E> implements Position<E> {
@@ -172,6 +257,7 @@ public class LinkedPositionalList<E> implements PositionalList<E> {
 
     /**
      * Inserts element e at the back of the linked list and returns its new Position
+     *
      * @param e the element to be added.
      * @return its new Position
      */
@@ -182,6 +268,7 @@ public class LinkedPositionalList<E> implements PositionalList<E> {
 
     /**
      * Inserts element e immediately before Position p, and returns its new Position
+     *
      * @param p the Position
      * @param e the element to be added
      * @return its new Position
@@ -190,11 +277,12 @@ public class LinkedPositionalList<E> implements PositionalList<E> {
     @Override
     public Position<E> addBefore(Position<E> p, E e) throws IllegalArgumentException {
         Node<E> node = validate(p);
-        return addBetween(e, node.getPrev(),node);
+        return addBetween(e, node.getPrev(), node);
     }
 
     /**
      * Inserts element e immediately after Position p, and returns its new Position
+     *
      * @param p the Position
      * @param e the element to be added
      * @return its new Position
@@ -208,6 +296,7 @@ public class LinkedPositionalList<E> implements PositionalList<E> {
 
     /**
      * Replaces the element stored at Position p and returns the replaced element.
+     *
      * @param p the position
      * @param e the new element at Position p
      * @return the replaced element
@@ -223,6 +312,7 @@ public class LinkedPositionalList<E> implements PositionalList<E> {
 
     /**
      * Removes the element stored at Position p and returns it (invalidating p).
+     *
      * @param p the position in which the element to be removed
      * @return the removed element at Position p
      * @throws IllegalArgumentException if the Position invalid
