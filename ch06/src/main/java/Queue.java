@@ -3,7 +3,7 @@ public interface Queue<E> {
 
     boolean isEmpty();
 
-    void enqueue();
+    void enqueue(E e);
 
     E first();
 
