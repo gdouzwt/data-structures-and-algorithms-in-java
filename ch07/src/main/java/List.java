@@ -45,7 +45,7 @@ public interface List<E> {
      *  Removes/returns the element at index i, shifting subsequent elements earlier.
      * @param i index
      * @return the removed element
-     * @throws IndexOutOfBoundsException
+     * @throws IndexOutOfBoundsException exception
      */
     E remove(int i) throws IndexOutOfBoundsException;
 }
