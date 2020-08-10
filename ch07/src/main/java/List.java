@@ -28,12 +28,12 @@ public interface List<E> {
      * @param i index
      * @param e the new element
      * @return the replaced element.
-     * @throws IndexOutOfBoundsException
+     * @throws IndexOutOfBoundsException exception
      */
     E set(int i, E e) throws IndexOutOfBoundsException;
 
     /**
-     * Inserts element e to be at index i, shifting all subsequent element laster.
+     * Inserts element e to be at index i, shifting all subsequent element later.
      * @param i index
      * @param e the element to be added
      * @throws IndexOutOfBoundsException exception
