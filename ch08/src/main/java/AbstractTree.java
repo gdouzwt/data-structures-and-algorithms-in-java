@@ -1,6 +1,10 @@
 /**
  * An abstract base class providing some functionality of the Tree interface.
  */
+
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AbstractTree<E> implements Tree<E> {
 
     @Override
@@ -55,4 +59,46 @@ public abstract class AbstractTree<E> implements Tree<E> {
             h = Math.max(h, 1 + height(c));
         return h;
     }
+
+    /**
+     * Adds positions of the subtree rooted at Position p to the given snapshot.
+     *
+     * @param p        position
+     * @param snapshot snapshot
+     */
+    private void preorderSubtree(Position<E> p, List<Position<E>> snapshot) {  // 这个 List 也是 java.util.List;
+        snapshot.add(p);
+        for (Position<E> c : children(p))
+            preorderSubtree(c, snapshot);
+    }
+
+    /**
+     * @return an iterable collection of positions of the tree, reported in preorder.
+     */
+    public Iterable<Position<E>> preorder() {
+        List<Position<E>> snapshot = new ArrayList<>();
+        if (!isEmpty())
+            preorderSubtree(root(), snapshot);  // fill the snapshot recursively
+        return snapshot;
+    }
+
+    /**
+     * Adds positions of the subtree rooted at Position p to the given snapshot.
+     */
+    private void postorderSubtree(Position<E> p, List<Position<E>> snapshot) {
+        for (Position<E> c : children(p))
+            postorderSubtree(c, snapshot);
+        snapshot.add(p);  // for postorder, we add position p after exploring subtrees
+    }
+
+    /**
+     * Returns an iterable collection of positions of the tree, reported in postorder.
+     */
+    public Iterable<Position<E>> postorder() {
+        List<Position<E>> snapshot = new ArrayList<>();
+        if (!isEmpty())
+            postorderSubtree(root(), snapshot);  // fill the snapshot recursively
+        return snapshot;
+    }
+
 }
