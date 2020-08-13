@@ -3,5 +3,7 @@ plugins {
 }
 
 dependencies{
+    implementation project(':ch04')
+    implementation project(':ch06')
     implementation project(':ch07')
 }

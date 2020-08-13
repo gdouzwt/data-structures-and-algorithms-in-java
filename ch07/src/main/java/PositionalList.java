@@ -5,6 +5,8 @@
  */
 public interface PositionalList<E> extends Iterable<E> {
 
+    Iterable<Position<E>> positions();
+
     /**
      * Returns the number of elements in the list.
      */
