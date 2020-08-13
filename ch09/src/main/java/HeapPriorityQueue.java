@@ -12,6 +12,20 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
         super(comp);
     }
 
+    public HeapPriorityQueue(K[] keys, V[] values) {
+        super();
+        for (int j = 0; j < Math.min(keys.length, values.length); j++) {
+            heap.add(new PQEntry<>(keys[j], values[j]));
+            heapify();
+        }
+    }
+
+    private void heapify() {
+        int startIndex = parent(size() - 1);  // start at PARENT of last entry
+        for (int j = startIndex; j >= 0; j--)
+            downHeap(j);
+    }
+
     // protected utilities
     protected int parent(int j) {
         return (j - 1) / 2;  // truncating division
@@ -103,4 +117,21 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
         downHeap(0);
         return answer;
     }
+
+
+    /**
+     * Sorts sequence S, using initially empty priority queue P to produce the order.
+     */
+    public static <E> void pqSort(PositionalList<E> S, PriorityQueue<E, ?> P) {
+        int n = S.size();
+        for (int j = 0; j < n; j++) {
+            E element = S.remove(S.first());
+            P.insert(element, null);  // element is key; null value
+        }
+        for (int j = 0; j < n; j++) {
+            E element = P.removeMin().getKey();
+            S.addLast(element);  // the smallest key in P is next placed in S
+        }
+    }
+
 }
