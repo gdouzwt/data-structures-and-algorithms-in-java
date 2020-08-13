@@ -1,6 +1,8 @@
 import java.util.Iterator;
 
 public abstract class AbstractMap<K, V> implements Map<K, V> {
+
+    @Override
     public boolean isEmpty() {
         return size() == 0;
     }
@@ -36,12 +38,18 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
             v = value;
             return old;
         }
+
+        /**
+         * Returns string representation (for debugging only)
+         */
+        public String toString() {
+            return "<" + k + ", " + v + ">";
+        }
     }  // ----------- end of nested MapEntry class --------------
 
     // Support for public keySet method...
     private class KeyIterator implements Iterator<K> {
         private Iterator<Entry<K, V>> entries = entrySet().iterator();  // reuse entrySet
-
 
         @Override
         public boolean hasNext() {
@@ -60,11 +68,13 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
     }
 
     private class KeyIterable implements Iterable<K> {
+        @Override
         public Iterator<K> iterator() {
             return new KeyIterator();
         }
     }
 
+    @Override
     public Iterable<K> keySet() {
         return new KeyIterable();
     }
@@ -90,11 +100,13 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
     }
 
     private class ValueIterable implements Iterable<V> {
+        @Override
         public Iterator<V> iterator() {
             return new ValueIterator();
         }
     }
 
+    @Override
     public Iterable<V> values() {
         return new ValueIterable();
     }
