@@ -194,7 +194,7 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
     /**
      * Places element e at the root of an empty tree and returns its new Position.
      */
-    public Position<E> addRoot(Position<E> p, E e) throws IllegalArgumentException {
+    public Position<E> addRoot(E e) throws IllegalArgumentException {
         if (!isEmpty()) throw new IllegalArgumentException("Tree is not empty");
         root = createNode(e, null, null, null);
         size = 1;

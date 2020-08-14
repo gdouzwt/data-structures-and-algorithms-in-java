@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-dependencies{
+dependencies {
     implementation project(':ch07')
 }
 
