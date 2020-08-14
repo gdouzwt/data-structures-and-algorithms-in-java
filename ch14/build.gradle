@@ -1,3 +1,10 @@
 plugins {
     id 'java'
 }
+
+dependencies {
+    implementation project(':ch06')
+    implementation project(':ch07')
+    implementation project(':ch09')
+    implementation project(':ch10')
+}
